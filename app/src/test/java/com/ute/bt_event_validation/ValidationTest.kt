@@ -1,10 +1,36 @@
 package com.ute.bt_event_validation
 
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ValidationTest {
+
+    @Test
+    fun testEmailValidation() {
+        assertNull(ValidationHelper.validateEmail("sinhvien@gmail.com"))
+        assertNull(ValidationHelper.validateEmail("20110001@sv.ute.udn.vn"))
+
+        // Invalid cases
+        assertNotNull(ValidationHelper.validateEmail("user@yahoo.com"))
+        assertNotNull(ValidationHelper.validateEmail("user@outlook.com"))
+        assertNotNull(ValidationHelper.validateEmail("invalid-email"))
+        assertNotNull(ValidationHelper.validateEmail(""))
+    }
+
+    @Test
+    fun testStudentIdValidation() {
+        assertNull(ValidationHelper.validateStudentId("20110001"))
+        assertNull(ValidationHelper.validateStudentId("123456"))
+
+        // Invalid cases: letters or special characters
+        assertNotNull(ValidationHelper.validateStudentId("2011A001"))
+        assertNotNull(ValidationHelper.validateStudentId("MSV123"))
+        assertNotNull(ValidationHelper.validateStudentId("123")) // too short
+        assertNotNull(ValidationHelper.validateStudentId(""))
+    }
 
     @Test
     fun testPhoneValidation() {

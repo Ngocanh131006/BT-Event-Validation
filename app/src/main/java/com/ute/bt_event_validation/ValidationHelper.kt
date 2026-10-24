@@ -1,15 +1,16 @@
 package com.ute.bt_event_validation
 
-import android.util.Patterns
-
 /**
  * Lớp tiện ích kiểm tra (validate) định dạng các trường thông tin đầu vào.
- * Sử dụng Regular Expression (Regex) và Patterns của Android.
+ * Sử dụng Regular Expression (Regex) kiểm tra chuẩn xác Email và Mã sinh viên.
  */
 object ValidationHelper {
 
     private val PHONE_REGEX = Regex("^0[3789]\\d{8}$")
-    private val STUDENT_ID_REGEX = Regex("^[A-Za-z0-9]{3,15}$")
+    // Email bắt buộc phải có đuôi @gmail.com hoặc @sv.ute.udn.vn
+    private val EMAIL_REGEX = Regex("^[A-Za-z0-9._%+-]+@(gmail\\.com|sv\\.ute\\.udn\\.vn)$", RegexOption.IGNORE_CASE)
+    // Mã sinh viên chỉ chứa ký tự số
+    private val STUDENT_ID_NUMERIC_REGEX = Regex("^\\d+$")
 
     /**
      * Họ và tên: Không rỗng, tối thiểu 2 ký tự
@@ -24,14 +25,14 @@ object ValidationHelper {
     }
 
     /**
-     * Email: Đúng định dạng email chuẩn và có dấu chấm tên miền
+     * Email: Phải thuộc miền @gmail.com hoặc @sv.ute.udn.vn
      */
     fun validateEmail(email: String): String? {
         val trimmed = email.trim()
         return when {
             trimmed.isEmpty() -> "Vui lòng nhập email"
-            !Patterns.EMAIL_ADDRESS.matcher(trimmed).matches() || !trimmed.contains(".") ->
-                "Email không hợp lệ (ví dụ: sinhvien@ute.edu.vn)"
+            !trimmed.matches(EMAIL_REGEX) ->
+                "Email phải có định dạng đuôi @gmail.com hoặc @sv.ute.udn.vn"
             else -> null
         }
     }
@@ -50,14 +51,16 @@ object ValidationHelper {
     }
 
     /**
-     * Mã sinh viên: Không rỗng, từ 3-15 ký tự chữ và số
+     * Mã sinh viên: Không rỗng, chỉ gồm các ký tự số (tối thiểu 4 chữ số)
      */
     fun validateStudentId(studentId: String): String? {
         val trimmed = studentId.trim()
         return when {
             trimmed.isEmpty() -> "Vui lòng nhập mã sinh viên"
-            !trimmed.matches(STUDENT_ID_REGEX) ->
-                "MSV từ 3-15 ký tự chữ và số, không chứa ký tự đặc biệt"
+            !trimmed.matches(STUDENT_ID_NUMERIC_REGEX) ->
+                "Mã sinh viên chỉ được chứa các ký tự số"
+            trimmed.length < 4 ->
+                "Mã sinh viên phải có tối thiểu 4 chữ số"
             else -> null
         }
     }
