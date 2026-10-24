@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">BT-Event-Validation</string>
+    <string name="title_register">Đăng Ký Sự Kiện</string>
+    <string name="title_detail">Thông Tin Chi Tiết</string>
+    <string name="hint_full_name">Họ và tên</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_phone">Số điện thoại</string>
+    <string name="hint_student_id">Mã sinh viên</string>
+    <string name="hint_class">Lớp</string>
+    <string name="btn_register">Đăng Ký</string>
+    <string name="btn_go_to_detail">Chuyển sang Chi Tiết</string>
+    <string name="btn_delete">Xoá Thông Tin</string>
+    <string name="btn_back_to_register">Chuyển về Đăng Ký</string>
 </resources>
